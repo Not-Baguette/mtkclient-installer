@@ -1,4 +1,7 @@
 # mtkclient-installer
+
+![image](https://github.com/user-attachments/assets/0038bba5-4f5e-449a-9a07-acf41c4abdc7)
+
 I made this to simplify tech support work I've been doing on XDA discord server in case I ever become inactive there. This code for the most part will be self-updating as it searches for latest releases.
 ### Only for Windows because I can't test on mac/linux
 
