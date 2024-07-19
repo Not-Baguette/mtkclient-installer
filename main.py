@@ -3,10 +3,11 @@ import json
 import os
 import shutil
 import platform
+import subprocess
 
 def pull_latest_release(url: str, filename: str, arch_select: str = "") -> bool:
     """
-    Pulls the latest release from github, used for winfsp and usbdk installation
+    Pulls the latest release from github, used for winfsp, usbdk, and git installation
     """
     try:
         response = requests.get(url)
@@ -78,14 +79,14 @@ def install_needed_packages(path_dict) -> None:
     """
     # Install WinFSP
     if pull_latest_release(path_dict["winfsp.msi"], "winfsp.msi"):
-        os.startfile("winfsp.msi")
         print("Please follow the Installation wizard that has popped up on your screen")
+        os.startfile("winfsp.msi")
         input("Press any key to continue...")
 
     # Installs usbdk
     if pull_latest_release(path_dict["usbdk.msi"], "usbdk.msi"):
         os.startfile("usbdk.msi")
-        input("USBdk has been installed. Press any key to continue...")
+        input("Press any key to continue...")
 
 def download_mtkclient() -> bool:
     """
@@ -106,18 +107,38 @@ def main():
     # Install git
     if platform.architecture()[0] == "64bit":
         print("64-bit detected")
-        pull_latest_release("https://api.github.com/repos/git-for-windows/git/releases/latest", "git.exe", arch_select="64bit")
+        pull_latest_release("https://api.github.com/repos/git-for-windows/git/releases/latest", "git_inst.exe", arch_select="64bit")
     elif platform.architecture()[0] == "32bit":
         print("32-bit detected")
-        pull_latest_release("https://api.github.com/repos/git-for-windows/git/releases/latest", "git.exe", arch_select="32bit")
+        pull_latest_release("https://api.github.com/repos/git-for-windows/git/releases/latest", "git_inst.exe", arch_select="32bit")
     else:
         raise NotImplementedError("Failed to detect architecture")
-
+    
+    # Start git installer
+    print("Please follow the Installation wizard that has popped up on your screen")
+    os.system(f'"{os.path.dirname(__file__)}\\git_inst.exe"')
+    input("Press any key to continue...")
+    
     # Download and unzip mtkclient
-    logs = os.popen("git clone https://github.com/bkerler/mtkclient && cd mtkclient && pip3 install -r requirements.txt && start . && start cmd.exe")
-    if "https://visualstudio.microsoft.com/visual-cpp-build-tools" in logs:
-        print("Netifaces build error detected")
-        print("Please install Visual Studio Code from https://visualstudio.microsoft.com/visual-cpp-build-tools and then download 'Desktop Development with C++'")
+    try:
+        logs = os.popen("git clone https://github.com/bkerler/mtkclient && cd mtkclient && pip3 install -r requirements.txt")
+        if "https://visualstudio.microsoft.com/visual-cpp-build-tools" in logs.read():
+            print("Netifaces build error detected")
+            print("Please install Visual Studio Code from https://visualstudio.microsoft.com/visual-cpp-build-tools and then download 'Desktop Development with C++'")
+    except OSError:
+        pass
+    # Open mtkclient
+    os.system("cd mtkclient && start . && start cmd.exe")
+
+    print("-" * os.get_terminal_size().columns)
+    print("Installation successful, you may close this window now.".center(os.get_terminal_size().columns))
+    print("-" * os.get_terminal_size().columns)
 
 if __name__ == "__main__":
+    text_list = ["Mtkclient Installer", "By: Baguette", "Version: 1.1"]
+    print("-" * os.get_terminal_size().columns)
+    for i in text_list:
+        print(i.center(os.get_terminal_size().columns))
+    print("-" * os.get_terminal_size().columns)
+
     main()
