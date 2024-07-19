@@ -2,6 +2,19 @@
 I made this to simplify tech support work I've been doing on XDA discord server in case I ever become inactive there. This code for the most part will be self-updating as it searches for latest releases.
 ### Only for Windows because I can't test on mac/linux
 
+## Installation
+- Download [python](https://www.python.org/)
+- Open python installation wizard, click Add as PATH on the bottom
+- Open `main.py` script
+![image](https://github.com/user-attachments/assets/541b04c3-0535-460b-9e6b-44b63036c0b8)
+- Download it
+![image](https://github.com/user-attachments/assets/ecb86a9f-af4c-45fa-8f44-ad5756cf0f71)
+- Move `main.py` on your downloads folder to another folder you want to install mtkclient on
+- Run `main.py` via opening a command prompt on the same folder (right-click, open in terminal for win 11 users) and then running `python main.py` (Or probably just run it by double clicking the python file)
+- Follow the instructions given
+
+- Open command prompt on the unzipped folder 
+
 ## What will this install
 - winfsp
 - usbdk
