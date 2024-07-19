@@ -13,8 +13,6 @@ I made this to simplify tech support work I've been doing on XDA discord server 
 - Run `main.py` via opening a command prompt on the same folder (right-click, open in terminal for win 11 users) and then running `python main.py` (Or probably just run it by double clicking the python file)
 - Follow the instructions given
 
-- Open command prompt on the unzipped folder 
-
 ## What will this install
 - winfsp
 - usbdk
