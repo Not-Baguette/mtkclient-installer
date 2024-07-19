@@ -1,5 +1,5 @@
 # mtkclient-installer
-I made this to simplify tech support work I've been doing on XDA discord server in case I ever become inactive there.
+I made this to simplify tech support work I've been doing on XDA discord server in case I ever become inactive there. This code for the most part will be self-updating as it searches for latest releases.
 ### Only for Windows because I can't test on mac/linux
 
 ## What will this install
