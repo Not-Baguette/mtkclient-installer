@@ -6,6 +6,10 @@ I made this to simplify tech support work I've been doing on XDA discord server 
 ### Only for Windows because I can't test on mac/linux
 
 ## Installation
+### Via .exe installer
+Coming soon
+
+### Via Python (Recommended if you already know basic file comprehension)
 - Download [python](https://www.python.org/)
 - Open python installation wizard, click Add as PATH on the bottom
 - Open `main.py` script
@@ -23,6 +27,14 @@ I made this to simplify tech support work I've been doing on XDA discord server 
 - Mediatek drivers
 - mtkclient
 Once you've installed all these, it will automatically open a command prompt on mtkclient folder so you can just run the command be done with it.
+
+## Todo for .exe release (Personal Notes)
+Bugs on exe version to deal with:
+- [] Git and the drivers not being installed due to using relative path I guess, Make this work with pyinstaller by putting objective paths So it wont run on `\AppData\Local\Temp\`
+![image](https://github.com/user-attachments/assets/293d191f-5c2f-47fd-8619-35ce0c9f56b2)
+- [] mtkclient installation failed completely, maybe can't git clone?
+- [] Disable automatically closing by changing the last line to be `input()`
+
 
 ## Credits
 - [bkerler](https://github.com/bkerler/) for mtkclient
