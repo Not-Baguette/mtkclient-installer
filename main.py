@@ -138,7 +138,7 @@ def main():
     input("-" * os.get_terminal_size().columns) # use input here to avoid closing the window on .exe version
 
 if __name__ == "__main__":
-    text_list = ["Mtkclient Installer", "By: Baguette", "Version: 1.1"]
+    text_list = ["Mtkclient Installer", "By: Baguette", "Version: 1.2"]
     print("-" * os.get_terminal_size().columns)
     for i in text_list:
         print(i.center(os.get_terminal_size().columns))
