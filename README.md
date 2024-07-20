@@ -1,4 +1,4 @@
-# mtkclient-installer
+![image](https://github.com/user-attachments/assets/f4e094b0-f019-4bf8-9f22-6de0901590ee)# mtkclient-installer
 
 ![image](https://github.com/user-attachments/assets/0038bba5-4f5e-449a-9a07-acf41c4abdc7)
 
@@ -6,8 +6,16 @@ I made this to simplify tech support work I've been doing on XDA discord server 
 ### Only for Windows because I can't test on mac/linux
 
 ## Installation
-### Via .exe installer
-Coming soon
+### Via .exe installer (Currently still needs manual python installation, will be fixed soon)
+![image](https://github.com/user-attachments/assets/0a65bd5a-f9dd-4117-94f8-03bae5c1dc76)
+- Click `main.exe` to download it
+![image](https://github.com/user-attachments/assets/65a28916-127a-498a-817a-38b39f36dfc9)
+- Drag it on somewhere you want to install mtkclient on
+![image](https://github.com/user-attachments/assets/b27614fb-4ad4-4e02-a72d-72a4c20805b0)
+- Double click the file on the folder you want install mtkclient on
+- Download [python](https://www.python.org/)
+- Open python installation wizard, click Add as PATH on the bottom
+- Click on the latest release like shown below
 
 ### Via Python (Recommended if you already know basic file comprehension)
 - Download [python](https://www.python.org/)
