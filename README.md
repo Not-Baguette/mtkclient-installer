@@ -42,18 +42,10 @@ I made this to simplify tech support work I've been doing on XDA discord server 
 
 Once you've installed all these, it will automatically open a command prompt on mtkclient folder so you can just run the command be done with it.
 
-## Todo
-## For .exe release (Personal Notes)
-Bugs on exe version to deal with:
-- [X] Git and the drivers not being installed due to using relative path I guess, Make this work with pyinstaller by putting objective paths So it wont run on `\AppData\Local\Temp\`
-![image](https://github.com/user-attachments/assets/293d191f-5c2f-47fd-8619-35ce0c9f56b2)
-- [X] mtkclient installation failed completely, maybe can't git clone?
-- [X] Disable automatically closing by changing the last line to be `input()`
-- [X] Installs latest python for you on the .exe one
-## For code quality
-- [X] Make it so it uses a variable rather than splitting it into two functions at line 19-33
-- [X] Same with line 109 and 112 probably
-- [X] Either decouple git into it's own function or put everything on `main()` function 
+## Todo for v1.4
+- [ ] Remove naming the files directly and put it on a variable instead
+- [ ] Probably get rid of `path_dict`
+- [ ] ??? I am not sure tbh, This app should be self-sufficient since it will keep taking the latest build possible.
 
 ## Credits
 - [bkerler](https://github.com/bkerler/) for mtkclient
