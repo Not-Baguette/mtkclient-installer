@@ -48,11 +48,11 @@ Bugs on exe version to deal with:
 ![image](https://github.com/user-attachments/assets/293d191f-5c2f-47fd-8619-35ce0c9f56b2)
 - [X] mtkclient installation failed completely, maybe can't git clone?
 - [X] Disable automatically closing by changing the last line to be `input()`
-- [ ] Installs latest python for you on the .exe one
+- [X] Installs latest python for you on the .exe one
 ## For code quality
 - [X] Make it so it uses a variable rather than splitting it into two functions at line 19-33
 - [X] Same with line 109 and 112 probably
-- [ ] Either decouple git into it's own function or put everything on `main()` function 
+- [X] Either decouple git into it's own function or put everything on `main()` function 
 
 ## Credits
 - [bkerler](https://github.com/bkerler/) for mtkclient
