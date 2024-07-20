@@ -45,6 +45,7 @@ Once you've installed all these, it will automatically open a command prompt on 
 ## Todo for v1.4
 - [ ] Remove naming the files directly and put it on a variable instead
 - [ ] Probably get rid of `path_dict`
+- [ ] Streamline and move mtkclient installation to `download_mtkclient()` function (since it's useless now)
 - [ ] ??? I am not sure tbh, This app should be self-sufficient since it will keep taking the latest build possible.
 
 ## Credits
