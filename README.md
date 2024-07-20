@@ -8,7 +8,7 @@ I made this to simplify tech support work I've been doing on XDA discord server 
 ## Installation
 ### Via .exe installer (Currently still needs manual python installation, will be fixed soon)
 - Click on the latest release on the right side panel
-- 
+  
 ![image](https://github.com/user-attachments/assets/878c7f38-2cb4-411b-b2cc-f93b14d019a0)
 - Click `main.exe` to download it
 
