@@ -17,9 +17,7 @@ I made this to simplify tech support work I've been doing on XDA discord server 
 
 ![image](https://github.com/user-attachments/assets/b27614fb-4ad4-4e02-a72d-72a4c20805b0)
 - Double click the file on the folder you want install mtkclient on
-- Download [python](https://www.python.org/)
-- Open python installation wizard, click Add as PATH on the bottom
-- Click on the latest release like shown below
+- Follow the script instructions
 
 ### Via Python (Recommended if you already know basic file comprehension)
 - Download [python](https://www.python.org/)
