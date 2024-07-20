@@ -6,10 +6,10 @@ I made this to simplify tech support work I've been doing on XDA discord server 
 ### Only for Windows because I can't test on mac/linux
 
 ## Installation
-### Via .exe installer (Currently still needs manual python installation, will be fixed soon)
+### Via .exe installer (Recommended if you really don't know how to even install a driver)
 - Click on the latest release on the right side panel
   
-![image](https://github.com/user-attachments/assets/878c7f38-2cb4-411b-b2cc-f93b14d019a0)
+![image](https://github.com/user-attachments/assets/8e0b3d99-8850-4a09-b2aa-aa1b4167e14d)
 - Click `mtkclient_installer.exe` to download it
 
 ![image](https://github.com/user-attachments/assets/b48af167-1a88-46f2-8778-c11fba0c32e7)
