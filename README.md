@@ -10,13 +10,13 @@ I made this to simplify tech support work I've been doing on XDA discord server 
 - Click on the latest release on the right side panel
   
 ![image](https://github.com/user-attachments/assets/878c7f38-2cb4-411b-b2cc-f93b14d019a0)
-- Click `main.exe` to download it
+- Click `mtkclient_installer.exe` to download it
 
-![image](https://github.com/user-attachments/assets/65a28916-127a-498a-817a-38b39f36dfc9)
+![image](https://github.com/user-attachments/assets/b48af167-1a88-46f2-8778-c11fba0c32e7)
 - Drag it on somewhere you want to install mtkclient on
 
 ![image](https://github.com/user-attachments/assets/b27614fb-4ad4-4e02-a72d-72a4c20805b0)
-- Double click the file on the folder you want install mtkclient on
+- Run the application by double-clicking it
 - Follow the script instructions
 
 ### Via Python (Recommended if you already know basic file comprehension)
