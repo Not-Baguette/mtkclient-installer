@@ -38,7 +38,8 @@ I made this to simplify tech support work I've been doing on XDA discord server 
 - usbdk (Latest)
 - git (Latest, 64/32 bit)
 - Mediatek drivers (Static)
-- mtkclient (latest)
+- mtkclient (Latest)
+
 Once you've installed all these, it will automatically open a command prompt on mtkclient folder so you can just run the command be done with it.
 
 ## Todo
