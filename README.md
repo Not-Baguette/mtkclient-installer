@@ -31,13 +31,14 @@ Once you've installed all these, it will automatically open a command prompt on 
 ## Todo
 ## For .exe release (Personal Notes)
 Bugs on exe version to deal with:
-- [ ] Git and the drivers not being installed due to using relative path I guess, Make this work with pyinstaller by putting objective paths So it wont run on `\AppData\Local\Temp\`
+- [X] Git and the drivers not being installed due to using relative path I guess, Make this work with pyinstaller by putting objective paths So it wont run on `\AppData\Local\Temp\`
 ![image](https://github.com/user-attachments/assets/293d191f-5c2f-47fd-8619-35ce0c9f56b2)
-- [ ] mtkclient installation failed completely, maybe can't git clone?
-- [ ] Disable automatically closing by changing the last line to be `input()`
+- [X] mtkclient installation failed completely, maybe can't git clone?
+- [X] Disable automatically closing by changing the last line to be `input()`
+- [ ] Installs latest python for you on the .exe one
 ## For code quality
-- [ ] Make it so it uses a variable rather than splitting it into two functions at line 19-33
-- [ ] Same with line 109 and 112 probably
+- [X] Make it so it uses a variable rather than splitting it into two functions at line 19-33
+- [X] Same with line 109 and 112 probably
 - [ ] Either decouple git into it's own function or put everything on `main()` function 
 
 ## Credits
