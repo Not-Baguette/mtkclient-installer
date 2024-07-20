@@ -4,6 +4,51 @@ import os
 import shutil
 import platform
 import sys
+import re
+
+
+def find_python_latest() -> str:
+    """
+    Finds latest python version in development
+    """
+    url = "https://www.python.org/doc/versions/"
+
+    # Scrape latest release
+    response = requests.get(url)
+
+    # Use regular expressions to find the "In Development Versions"
+    matches = re.findall(r'<a class="reference external" href="(https://docs.python.org/release/[\d.]+/)">Python ([\d.]+)</a>, documentation released on [\d\s\w]+', response.text)
+
+    if matches:
+        latest_version_url, latest_version_number = matches[0]
+        print(f"Latest In Development Version: Python {latest_version_number}")
+    else:
+        print("Could not find the latest in development version.")
+    return latest_version_number
+
+def install_python(latest_version_number: str, arch_select: str) -> bool:
+    """
+    Downloads the latest version of python, this is a hacky solution but the best I can do for now
+    """
+    url_template = f"https://www.python.org/ftp/python/{latest_version_number}/python-{latest_version_number}"
+    try:
+        if arch_select == "64bit":
+            url_template += "-amd64"
+        elif arch_select == "32bit":
+            pass
+        else:
+            raise NotImplementedError("Failed to detect architecture")
+        
+        url = url_template + ".exe"
+        print(f"Downloading {url}...")
+
+        # Download and install the app
+        response = requests.get(url)
+        with open("python_inst.exe", "wb") as f:
+            f.write(response.content)
+        return True
+    except Exception as e:
+        return False
 
 def pull_latest_release(url: str, filename: str, arch_select: str = "") -> bool:
     """
@@ -45,7 +90,7 @@ def pull_latest_release(url: str, filename: str, arch_select: str = "") -> bool:
 
 def install_mediatek_drivers(asset_url: str, filename: str, app_path: str) -> bool:
     """
-    Installs the MTK Preloader Driver
+    Installs the MTK Preloader Driver, static so no updates though
     """
     try:
         print("Getting assets...")
@@ -68,7 +113,7 @@ def install_mediatek_drivers(asset_url: str, filename: str, app_path: str) -> bo
         print(f"Failed to download Mediatek drivers: {e}")
         return False
 
-def install_needed_packages(path_dict) -> None:
+def install_needed_packages(path_dict, arch: str, app_path: str) -> None:
     """
     Installs Winfsp, usbdk, and mediatek preloader drivers
     """
@@ -83,31 +128,7 @@ def install_needed_packages(path_dict) -> None:
         os.startfile("usbdk.msi")
         input("Press any key to continue...")
 
-def download_mtkclient() -> bool:
-    """
-    Downloads the mtkclient from repo, don't use release version incase it is not up to date like v1.58
-    """
-    os.system(f"git clone https://github.com/bkerler/mtkclient && cd mtkclient && pip3 install -r requirements.txt")
-
-def main():
-    # Dictionary of paths and URLs needed
-    path_dict = {"winfsp.msi": "https://api.github.com/repos/winfsp/winfsp/releases/latest",
-                 "usbdk.msi": "https://api.github.com/repos/daynix/UsbDk/releases/latest",
-                 "git": "https://api.github.com/repos/git-for-windows/git/releases/latest",
-                 "mtk_preloader_driver.zip": "https://androiddatahost.com/wp-content/uploads/Mediatek_Driver_Auto_Installer_v1.1352.zip"}
-    
-    # Check if the script is running as an executable or as a python script, and changes the path accordingly
-    if getattr(sys, 'frozen', False):
-        app_path = os.path.dirname(sys.executable)
-    else:
-        app_path = os.path.dirname(__file__)
-
-
-    "Installation successful." if install_needed_packages(path_dict) else "Installation failed." # Installs WinFSP, usbdk
-    "Installation successful." if install_mediatek_drivers(path_dict["mtk_preloader_driver.zip"], "mtk_preloader_driver.zip", app_path) else "Installation failed." # Install MTK Preloader Driver
-    
     # Install git
-    arch = platform.architecture()[0]
     if arch == "64bit":
         print("64-bit detected")
     elif arch == "32bit":
@@ -121,6 +142,35 @@ def main():
     print("Please follow the Installation wizard that has popped up on your screen")
     os.system(f'"{app_path}\\git_inst.exe"')
     input("Press any key to continue...")
+
+def download_mtkclient() -> bool:
+    """
+    Downloads the mtkclient from repo, don't use release version incase it is not up to date like v1.58
+    """
+    os.system(f"git clone https://github.com/bkerler/mtkclient && cd mtkclient && pip3 install -r requirements.txt")
+
+def main():
+    # Dictionary of paths and URLs needed
+    path_dict = {"winfsp.msi": "https://api.github.com/repos/winfsp/winfsp/releases/latest",
+                 "usbdk.msi": "https://api.github.com/repos/daynix/UsbDk/releases/latest",
+                 "git": "https://api.github.com/repos/git-for-windows/git/releases/latest",
+                 "mtk_preloader_driver.zip": "https://androiddatahost.com/wp-content/uploads/Mediatek_Driver_Auto_Installer_v1.1352.zip"}
+    arch = platform.architecture()[0]
+
+    # Check if the script is running as an executable or as a python script, and changes the path accordingly
+    if getattr(sys, 'frozen', False):
+        app_path = os.path.dirname(sys.executable)
+        # if it's run as an executable, install python
+        if install_python(find_python_latest(), arch): # the function should return true if the installation was successful
+            print("Please add Python as PATH on the installation wizard (near the bottom of the wizard)")
+            os.system("python_inst.exe")
+            input("Press any key to continue...")
+    else:
+        app_path = os.path.dirname(__file__)
+
+    # Install WinFSP, usbdk, git and mediatek preloader drivers
+    "Installation successful." if install_needed_packages(path_dict, arch, app_path) else "Installation failed." # Installs WinFSP, usbdk
+    "Installation successful." if install_mediatek_drivers(path_dict["mtk_preloader_driver.zip"], "mtk_preloader_driver.zip", app_path) else "Installation failed." # Install MTK Preloader Driver
     
     # Download and unzip mtkclient
     try:
@@ -138,7 +188,7 @@ def main():
     input("-" * os.get_terminal_size().columns) # use input here to avoid closing the window on .exe version
 
 if __name__ == "__main__":
-    text_list = ["Mtkclient Installer", "By: Baguette", "Version: 1.2"]
+    text_list = ["Mtkclient Installer", "By: Baguette", "Version: 1.3"]
     print("-" * os.get_terminal_size().columns)
     for i in text_list:
         print(i.center(os.get_terminal_size().columns))
