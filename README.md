@@ -2,7 +2,7 @@
 
 ![image](https://github.com/user-attachments/assets/0038bba5-4f5e-449a-9a07-acf41c4abdc7)
 
-I made this to simplify tech support work I've been doing on XDA discord server in case I ever become inactive there. This code for the most part will be self-updating as it searches for latest releases.
+I made this to simplify tech support work I've been doing on XDA discord server in case I ever become inactive there. This code for the most part will be *self-updating* as it _searches for latest releases_ rather being stuck on a specific version.
 ### Only for Windows because I can't test on mac/linux
 
 ## Installation
@@ -33,11 +33,12 @@ I made this to simplify tech support work I've been doing on XDA discord server 
 - Follow the instructions given
 
 ## What will this install
-- winfsp
-- usbdk
-- git (64/32 bit)
-- Mediatek drivers
-- mtkclient
+- Python (Latest, 64/32 bit)
+- winfsp (Latest)
+- usbdk (Latest)
+- git (Latest, 64/32 bit)
+- Mediatek drivers (Static)
+- mtkclient (latest)
 Once you've installed all these, it will automatically open a command prompt on mtkclient folder so you can just run the command be done with it.
 
 ## Todo
