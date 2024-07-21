@@ -6,7 +6,6 @@ import platform
 import sys
 import re
 
-
 def find_python_latest() -> str:
     """
     Finds latest python version in development
@@ -88,10 +87,11 @@ def pull_latest_release(url: str, filename: str, arch_select: str = "") -> bool:
     except Exception as e:
         raise NotImplementedError(f"Failed to download {filename}: {e}")
 
-def install_mediatek_drivers(asset_url: str, filename: str, app_path: str) -> bool:
+def install_mediatek_drivers(asset_url: str, app_path: str) -> bool:
     """
     Installs the MTK Preloader Driver, static so no updates though
     """
+    filename, driver_folder = "mtk_preloader_driver.zip", "mtk_preloader_driver"
     try:
         print("Getting assets...")
         response = requests.get(asset_url)
@@ -102,9 +102,9 @@ def install_mediatek_drivers(asset_url: str, filename: str, app_path: str) -> bo
 
         print("Unzipping & Installing drivers...")
         # Unzip the drivers & run the install drivers bat file
-        shutil.unpack_archive("mtk_preloader_driver.zip", "mtk_preloader_driver")
-        abs_path =(os.path.join(app_path, "mtk_preloader_driver", 
-                                "Mediatek Driver Auto Installer v1.1352"))
+        shutil.unpack_archive(filename, driver_folder)
+        abs_path =(os.path.join(app_path, driver_folder, 
+                                "Mediatek Driver Auto Installer v1.1352"))  # this is static
         # cd to the dir first so the bat file can find required files
         os.system(f'cd "{abs_path}" && "Install Drivers.bat"')  
 
@@ -117,15 +117,16 @@ def install_needed_packages(path_dict, arch: str, app_path: str) -> None:
     """
     Installs Winfsp, usbdk, and mediatek preloader drivers
     """
+    winfsp_name, usbdk_name, git_name = "winfsp.msi", "usbdk.msi", "git_inst.exe"  # Dynamic naming
     # Install WinFSP
-    if pull_latest_release(path_dict["winfsp.msi"], "winfsp.msi"):
+    if pull_latest_release(path_dict["winfsp"], winfsp_name):
         print("Please follow the Installation wizard that has popped up on your screen")
-        os.startfile("winfsp.msi")
+        os.startfile(winfsp_name)
         input("Press any key to continue...")
 
     # Installs usbdk
-    if pull_latest_release(path_dict["usbdk.msi"], "usbdk.msi"):
-        os.startfile("usbdk.msi")
+    if pull_latest_release(path_dict["usbdk"], usbdk_name):
+        os.startfile(usbdk_name)
         input("Press any key to continue...")
 
     # Install git
@@ -136,26 +137,47 @@ def install_needed_packages(path_dict, arch: str, app_path: str) -> None:
     else:
         raise NotImplementedError("Failed to detect architecture")
     
-    pull_latest_release("https://api.github.com/repos/git-for-windows/git/releases/latest", "git_inst.exe", arch_select=arch)
+    pull_latest_release(path_dict["git"], git_name, arch_select=arch)
     
     # Start git installer
     print("Please follow the Installation wizard that has popped up on your screen")
-    os.system(f'"{app_path}\\git_inst.exe"')
+    os.system(f'"{app_path}\\{git_name}"')
     input("Press any key to continue...")
 
-def download_mtkclient() -> bool:
+def install_mtkclient() -> bool:
     """
     Downloads the mtkclient from repo, don't use release version incase it is not up to date like v1.58
     """
-    os.system(f"git clone https://github.com/bkerler/mtkclient && cd mtkclient && pip3 install -r requirements.txt")
+    try:
+        logs = os.popen("git clone https://github.com/bkerler/mtkclient && cd mtkclient && pip3 install -r requirements.txt")
+        if "https://visualstudio.microsoft.com/visual-cpp-build-tools" in logs.read():
+            print("Netifaces build error detected")
+            print("Please install Visual Studio Code from https://visualstudio.microsoft.com/visual-cpp-build-tools and then download 'Desktop Development with C++'")
+    except OSError:
+        return False
+    # Open mtkclient, avoid using popen here.
+    os.system("cd mtkclient && start . && start cmd.exe")
+    return True
+    
 
 def main():
     # Dictionary of paths and URLs needed
-    path_dict = {"winfsp.msi": "https://api.github.com/repos/winfsp/winfsp/releases/latest",
-                 "usbdk.msi": "https://api.github.com/repos/daynix/UsbDk/releases/latest",
+    path_dict = {"winfsp": "https://api.github.com/repos/winfsp/winfsp/releases/latest",
+                 "usbdk": "https://api.github.com/repos/daynix/UsbDk/releases/latest",
                  "git": "https://api.github.com/repos/git-for-windows/git/releases/latest",
-                 "mtk_preloader_driver.zip": "https://androiddatahost.com/wp-content/uploads/Mediatek_Driver_Auto_Installer_v1.1352.zip"}
+                 "mtk preloader driver": "https://androiddatahost.com/wp-content/uploads/Mediatek_Driver_Auto_Installer_v1.1352.zip"}
     arch = platform.architecture()[0]
+
+    # Intro text
+    text_tup = ("Mtkclient Installer", 
+             "By: Baguette - https://github.com/Not-Baguette/mtkclient-installer/", 
+             "Version: 1.4-Chicago", 
+             "Copyright: © Baguette 2024. All rights reserved.")
+
+    print("-" * os.get_terminal_size().columns)
+    for item in text_tup:
+        print(item.center(os.get_terminal_size().columns))
+    print("-" * os.get_terminal_size().columns)
 
     # Check if the script is running as an executable or as a python script, and changes the path accordingly
     if getattr(sys, 'frozen', False):
@@ -169,29 +191,19 @@ def main():
         app_path = os.path.dirname(__file__)
 
     # Install WinFSP, usbdk, git and mediatek preloader drivers
-    "Installation successful." if install_needed_packages(path_dict, arch, app_path) else "Installation failed." # Installs WinFSP, usbdk
-    "Installation successful." if install_mediatek_drivers(path_dict["mtk_preloader_driver.zip"], "mtk_preloader_driver.zip", app_path) else "Installation failed." # Install MTK Preloader Driver
+    print("Winfsp/Usbdk/Git Installation successful.") if install_needed_packages(
+        path_dict, arch, app_path) else print("Winfsp/Usbdk/Git Installation failed.")
+    
+    print("Mtk Preloader Driver Installation successful.") if install_mediatek_drivers(
+        path_dict["mtk preloader driver"], app_path) else print("Mtk Preloader Driver Installation failed.") # Install MTK Preloader Driver
     
     # Download and unzip mtkclient
-    try:
-        logs = os.popen("git clone https://github.com/bkerler/mtkclient && cd mtkclient && pip3 install -r requirements.txt")
-        if "https://visualstudio.microsoft.com/visual-cpp-build-tools" in logs.read():
-            print("Netifaces build error detected")
-            print("Please install Visual Studio Code from https://visualstudio.microsoft.com/visual-cpp-build-tools and then download 'Desktop Development with C++'")
-    except OSError:
-        pass
-    # Open mtkclient, avoid using popen here.
-    os.system("cd mtkclient && start . && start cmd.exe")
+    print("Mtkclient Installation successful.") if install_mtkclient() else print("Mtkclient Installation failed.")
+
 
     print("-" * os.get_terminal_size().columns)
     print("Installation successful, you may close this window now.".center(os.get_terminal_size().columns))
     input("-" * os.get_terminal_size().columns) # use input here to avoid closing the window on .exe version
 
 if __name__ == "__main__":
-    text_list = ["Mtkclient Installer", "By: Baguette", "Version: 1.3"]
-    print("-" * os.get_terminal_size().columns)
-    for i in text_list:
-        print(i.center(os.get_terminal_size().columns))
-    print("-" * os.get_terminal_size().columns)
-
     main()
