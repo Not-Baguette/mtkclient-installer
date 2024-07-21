@@ -43,10 +43,11 @@ I made this to simplify tech support work I've been doing on XDA discord server 
 Once you've installed all these, it will automatically open a command prompt on mtkclient folder so you can just run the command be done with it.
 
 ## Todo for v1.4
-- [ ] Remove naming the files directly and put it on a variable instead
-- [ ] Detect and hashcheck the files before running(?)
-- [ ] Probably get rid of `path_dict`
-- [ ] Streamline and move mtkclient installation to `download_mtkclient()` function (since it's useless now)
+- [X] Remove naming the files directly and put it on a variable instead (Did to some extent)
+- [ ] Detect and hashcheck the files before running (No easy way to validate the hash dynamically)
+- [X] Probably get rid of `path_dict` (I instead made it more effective)
+- [X] Streamline and move mtkclient installation to `download_mtkclient()` function (since it's useless now)
+- [ ] Precheck if we have a file with the same name maybe(?)
 - [ ] ??? I am not sure tbh, This app should be self-sufficient since it will keep taking the latest build possible.
 
 ## Credits
