@@ -113,36 +113,41 @@ def install_mediatek_drivers(asset_url: str, app_path: str) -> bool:
         print(f"Failed to download Mediatek drivers: {e}")
         return False
 
-def install_needed_packages(path_dict, arch: str, app_path: str) -> None:
+def install_needed_packages(path_dict, arch: str, app_path: str) -> bool:
     """
     Installs Winfsp, usbdk, and mediatek preloader drivers
     """
     winfsp_name, usbdk_name, git_name = "winfsp.msi", "usbdk.msi", "git_inst.exe"  # Dynamic naming
     # Install WinFSP
-    if pull_latest_release(path_dict["winfsp"], winfsp_name):
+    try:
+        if pull_latest_release(path_dict["winfsp"], winfsp_name):
+            print("Please follow the Installation wizard that has popped up on your screen")
+            os.startfile(winfsp_name)
+            input("Press any key to continue...")
+
+        # Installs usbdk
+        if pull_latest_release(path_dict["usbdk"], usbdk_name):
+            os.startfile(usbdk_name)
+            input("Press any key to continue...")
+
+        # Install git
+        if arch == "64bit":
+            print("64-bit detected")
+        elif arch == "32bit":
+            print("32-bit detected")
+        else:
+            raise NotImplementedError("Failed to detect architecture")
+        
+        pull_latest_release(path_dict["git"], git_name, arch_select=arch)
+        
+        # Start git installer
         print("Please follow the Installation wizard that has popped up on your screen")
-        os.startfile(winfsp_name)
+        os.system(f'"{app_path}\\{git_name}"')
         input("Press any key to continue...")
-
-    # Installs usbdk
-    if pull_latest_release(path_dict["usbdk"], usbdk_name):
-        os.startfile(usbdk_name)
-        input("Press any key to continue...")
-
-    # Install git
-    if arch == "64bit":
-        print("64-bit detected")
-    elif arch == "32bit":
-        print("32-bit detected")
-    else:
-        raise NotImplementedError("Failed to detect architecture")
+    except Exception as _:
+        return False
     
-    pull_latest_release(path_dict["git"], git_name, arch_select=arch)
-    
-    # Start git installer
-    print("Please follow the Installation wizard that has popped up on your screen")
-    os.system(f'"{app_path}\\{git_name}"')
-    input("Press any key to continue...")
+    return True
 
 def install_mtkclient() -> bool:
     """
@@ -159,8 +164,7 @@ def install_mtkclient() -> bool:
     os.system("cd mtkclient && start . && start cmd.exe")
     return True
     
-
-def main():
+def main() -> None:
     # Dictionary of paths and URLs needed
     path_dict = {"winfsp": "https://api.github.com/repos/winfsp/winfsp/releases/latest",
                  "usbdk": "https://api.github.com/repos/daynix/UsbDk/releases/latest",
