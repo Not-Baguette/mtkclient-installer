@@ -182,7 +182,9 @@ def main() -> None:
     for item in text_tup:
         print(item.center(os.get_terminal_size().columns))
     print("-" * os.get_terminal_size().columns)
-
+    print("Please only Install this script if you got it from "\
+           "https://github.com/Not-Baguette/mtkclient-installer".center(os.get_terminal_size().columns))
+    
     # Check if the script is running as an executable or as a python script, and changes the path accordingly
     if getattr(sys, 'frozen', False):
         app_path = os.path.dirname(sys.executable)
