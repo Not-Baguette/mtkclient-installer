@@ -12,7 +12,7 @@ I made this to simplify tech support work I've been doing on XDA discord server 
 ![image](https://github.com/user-attachments/assets/d4679730-2550-4fcd-83ef-f4f6da13e1fc)
 - Click `mtkclient_installer.exe` to download it
 
-![image](https://github.com/user-attachments/assets/b48af167-1a88-46f2-8778-c11fba0c32e7)
+![image](https://github.com/user-attachments/assets/46219dc1-41ce-4190-b8ff-1f9554f6ec61)
 - Drag it on somewhere you want to install mtkclient on
 
 ![image](https://github.com/user-attachments/assets/b27614fb-4ad4-4e02-a72d-72a4c20805b0)
